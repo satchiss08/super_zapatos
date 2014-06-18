@@ -3,9 +3,9 @@ class CreateArticles < ActiveRecord::Migration
     create_table :articles do |t|
       t.string :name
       t.string :description
-      t.float :price
-      t.integer :total_in_shelf
-      t.integer :total_in_vault
+      t.float :price, :default=> 0.0
+      t.integer :total_in_shelf, :default=> 0
+      t.integer :total_in_vault, :default=> 0
       t.references :store
       t.timestamps
     end
