@@ -7,7 +7,7 @@ class StoresController < ApplicationController
   def create
     @store = Store.new(store_params)    
     if @store.save
-      flash[:success] = "Nueva Tienda Creada!"
+      flash[:success] = "New Store Created!"
       redirect_to new_store_path
     else
       render 'new'
