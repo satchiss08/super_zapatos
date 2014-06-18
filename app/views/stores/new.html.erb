@@ -1,0 +1,18 @@
+<% provide(:title, 'Store') %>
+<h1>New Store</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@store) do |f| %>
+
+      <%= render 'shared/store_error_messages' %>
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+
+      <%= f.label :address %>
+      <%= f.text_field :address %>
+
+      <%= f.submit "Create Store", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>

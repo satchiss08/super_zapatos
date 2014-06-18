@@ -19,9 +19,9 @@ ActiveRecord::Schema.define(version: 20140617231348) do
   create_table "articles", force: true do |t|
     t.string   "name"
     t.string   "description"
-    t.float    "price"
-    t.integer  "total_in_shelf"
-    t.integer  "total_in_vault"
+    t.float    "price",          default: 0.0
+    t.integer  "total_in_shelf", default: 0
+    t.integer  "total_in_vault", default: 0
     t.integer  "store_id"
     t.datetime "created_at"
     t.datetime "updated_at"
