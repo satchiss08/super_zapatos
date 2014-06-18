@@ -1,5 +1,5 @@
 SuperZapatos::Application.routes.draw do
-  namespace :api, :defaults => {:format => :json} do
-    resources :article
+  namespace :services, :defaults => {:format => :json} do
+    resources :articles
   end
 end
