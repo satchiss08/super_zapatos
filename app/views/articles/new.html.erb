@@ -1,27 +1,30 @@
-<% provide(:title, 'Artículo') %>
-<h1>Nuevo Artículo</h1>
+<% provide(:title, 'Article') %>
+<h1>New Article</h1>
 
 <div class="row">
   <div class="span6 offset3">
     <%= form_for(@article) do |f| %>
 
-      <!%= render 'shared/error_messages' %>
-      <%= f.label "Nombre" %>
+      <%= render 'shared/article_error_messages' %>
+      <%= f.label :name %>
       <%= f.text_field :name %>
 
-      <%= f.label "Descripción" %>
+      <%= f.label :description %>
       <%= f.text_field :description %>
 
-      <%= f.label "Total en Tienda"%>
+      <%= f.label :price %>
+      <%= f.text_field :price %>
+
+      <%= f.label :total_in_shelf %>
       <%= f.text_field :total_in_shelf %>
 
-      <%= f.label "Total en Bodega" %>
+      <%= f.label :total_in_vault %>
       <%= f.text_field :total_in_vault %>
 
-      <%= f.label "Tienda" %>
+      <%= f.label :store %>
       <%= f.collection_select :store_id, Store.all, :id, :name, {} %>
 
-      <%= f.submit "Crear Artículo", class: "btn btn-large btn-primary" %>
+      <%= f.submit "Create Article", class: "btn btn-large btn-primary" %>
     <% end %>
   </div>
 </div>
