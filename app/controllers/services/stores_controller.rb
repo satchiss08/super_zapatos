@@ -2,7 +2,7 @@ class Services::StoresController < ApplicationController
   def index
     @stores = Store.all
     stores_parser
-    json_generator
+    json_response
   end
 
   private
@@ -13,21 +13,24 @@ class Services::StoresController < ApplicationController
       end
     end
 
-    def json_generator
-      json_stores = Hash.new()
-
-      if @stores.count > 1
-        json_stores["stores"] = @stores_list
-      else 
-        json_stores["store"] = @stores_list
-      end
-      
-      json_stores["success"] = true
-      json_stores["total_elements"] = @stores.count
-      
+    def json_response
+      @json_stores = Hash.new()
+      json_generator
+  
       respond_to do |format|
         format.html
-        format.json { render :json => json_stores }
+        format.json { render :json => @json_stores }
       end
+    end
+
+    def json_generator
+      if @stores.count > 1
+        @json_stores["stores"] = @stores_list
+      else 
+        @json_stores["store"] = @stores_list
+      end
+      
+      @json_stores["success"] = true
+      @json_stores["total_elements"] = @stores.count
     end
 end

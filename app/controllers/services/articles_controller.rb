@@ -4,13 +4,13 @@ class Services::ArticlesController < ApplicationController
   def index
     @articles = Article.all
     articles_parser
-    json_generator
+    json_response
   end
 
   def show
     @articles = Article.where(:store_id => params[:id])
     articles_parser
-    json_generator
+    json_response
   end
 
   private
@@ -21,22 +21,24 @@ class Services::ArticlesController < ApplicationController
       end
     end
 
-    def json_generator
-      json_articles = Hash.new()
-
-      if @articles.count > 1
-        json_articles["articles"] = @articles_list
-      else 
-        json_articles["article"] = @articles_list
-      end
-
-      json_articles["success"] = true
-      json_articles["total_elements"] = @articles.count
+    def json_response
+      @json_articles = Hash.new()
+      json_generator
       
       respond_to do |format|
         format.html
-        format.json { render :json => json_articles }
+        format.json { render :json => @json_articles }
       end
     end
 
+    def json_generator
+      if @articles.count > 1
+        @json_articles["articles"] = @articles_list
+      else 
+        @json_articles["article"] = @articles_list
+      end
+
+      @json_articles["success"] = true
+      @json_articles["total_elements"] = @articles.count
+    end
 end
