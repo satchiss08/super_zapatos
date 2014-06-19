@@ -1,10 +1,16 @@
-include ActionView::Helpers::TextHelper
+require 'services/api/json_generator'
+require 'services/error_message'
 
 class Services::ArticlesController < ApplicationController
+
   def index
     @articles = Article.all
-    articles_parser
-    json_response
+    @json_articles = json_generator.articles_parser
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @json_articles }
+    end
   end
 
   def show
@@ -24,32 +30,15 @@ class Services::ArticlesController < ApplicationController
 
   private
 
-    def articles_parser
-      @articles_list = @articles.map do |a|
-        { :id => a.id, :name => a.name, :description => a.description, :price => a.price, :total_in_shelf => a.total_in_shelf, :total_in_vault => a.total_in_vault, :store_name => a.store.name }
-      end
-    end
+  def json_generator
+    @json_generator ||= Services::Api::JsonGenerator.new(list: @articles, type: "article")
+  end
 
-    def json_response
-      @json_articles = Hash.new()
-      json_generator
-      
-      respond_to do |format|
-        format.html
-        format.json { render :json => @json_articles }
-      end
-    end
+  def error_message(code)
+    @error_message ||= Services::ErrorMessage.new(code: code)
+  end
 
-    def json_generator
-      if @articles.count > 1
-        @json_articles["articles"] = @articles_list
-      else 
-        @json_articles["article"] = @articles_list
-      end
-
-      @json_articles["success"] = true
-      @json_articles["total_elements"] = @articles.count
-    end
+    
 
     def error_message(error)
       @json_articles = Hash.new()
